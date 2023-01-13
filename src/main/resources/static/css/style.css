@@ -9,5 +9,8 @@ tr {
     vertical-align: inherit;
     border-color: inherit;
 }
-
+*{
+    box-sizing: border-box;
+    border-spacing: 0px;
+}
 

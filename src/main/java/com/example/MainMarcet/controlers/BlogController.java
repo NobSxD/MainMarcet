@@ -27,13 +27,12 @@ public class BlogController {
     @Autowired
     private PostRepository postRepository;
 
-    @GetMapping("/")
-    public String blogMain(Model model){
+    @GetMapping("/1")
+    public String home(Model model){
         Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("post", posts);
-        return "home";
+        return "shablon";
     }
-
     @GetMapping("/3")
     public String blogDetails(@PathVariable(value = "id") long id, Model module){
         Parser parser = new Parser();
