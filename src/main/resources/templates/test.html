@@ -11,15 +11,9 @@
 
 </header>
 <main>
-    <h1 class="h1">Привет</h1>
+    <h1 class="h1">Привет ты прошел аутификацию</h1>
     <div class="container mt-5">
         <div th:each="el : ${post}" class="alert alert-info mt-2">
-            <span th:text ="${el.market_cap_rank}">  </span>
-            <span th:text ="${el.idName}">  </span>
-            <span th:text ="${el.current_price}">  </span>
-            <span th:text ="${el.market_cap_change_percentage_24h}">  </span>
-            <span th:text ="${el.total_volume}"></span>
-            <span th:text ="${el.market_cap}"></span>
 
         </div>
     </div>

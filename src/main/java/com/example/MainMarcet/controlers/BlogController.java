@@ -4,12 +4,9 @@ package com.example.MainMarcet.controlers;
 import com.example.MainMarcet.models.Parser;
 import com.example.MainMarcet.models.Post;
 import com.example.MainMarcet.repo.PostRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +27,11 @@ public class BlogController {
     public String home(Model model){
         Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("post", posts);
-        return "shablon";
+        return "home";
     }
-    @GetMapping("/2")
-    public String date(Model model){
 
-        return "shablon";
-    }
-    @GetMapping("/3")
-    public String blogDetails(@PathVariable(value = "id") long id, Model module){
+    @GetMapping("/admin")
+    public String blogDetails(Model module){
         Parser parser = new Parser();
         String url = parser.getUrlContent(parser.urlCoinGeco("USD", 100, 1));
         JSONArray object = new JSONArray(url);

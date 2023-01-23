@@ -1,8 +1,9 @@
 package com.example.MainMarcet.models;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -11,9 +12,6 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_seq")
     @Column(name = "id", nullable = false)
-
-
-
     private Long id;
 
 
