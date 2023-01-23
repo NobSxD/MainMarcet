@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,6 @@ import java.util.Optional;
 @Controller
 public class BlogController {
 
-    @PersistenceContext
-    private EntityManager em;
 
     @Autowired
     private PostRepository postRepository;
@@ -31,6 +30,11 @@ public class BlogController {
     public String home(Model model){
         Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("post", posts);
+        return "shablon";
+    }
+    @GetMapping("/2")
+    public String date(Model model){
+
         return "shablon";
     }
     @GetMapping("/3")
