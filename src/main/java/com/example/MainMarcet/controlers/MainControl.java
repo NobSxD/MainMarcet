@@ -33,20 +33,10 @@ public class MainControl {
         return "home";
     }
 
-    @GetMapping("/1")
-    public String one(Model model) {
-        return "test";
-    }
 
-    @GetMapping("/update")
-    public String update() {
-    updateDateBase.update();
-        return "redirect:/home";
-    }
     @GetMapping("/admin")
     public String save(Model model) {
         updateDateBase.save();
-
         return "redirect:/home";
     }
 
