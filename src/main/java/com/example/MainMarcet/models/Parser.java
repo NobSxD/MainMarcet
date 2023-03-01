@@ -1,11 +1,5 @@
 package com.example.MainMarcet.models;
 
-import com.example.MainMarcet.controlers.BlogController;
-import com.example.MainMarcet.repo.PostRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
