@@ -36,7 +36,7 @@ public class MainControl {
 
     @GetMapping("/admin")
     public String save(Model model) {
-        updateDateBase.save();
+//        updateDateBase.save();
         return "redirect:/home";
     }
 

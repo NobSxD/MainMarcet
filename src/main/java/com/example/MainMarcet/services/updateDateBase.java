@@ -26,62 +26,14 @@ import java.util.List;
 public class updateDateBase {
 
     private PostRepository postRepository;
-    private int QuantityCoin = 250;
-    private int page = 1;
+    private int QuantityCoin = 100;                                                                                     //количество монет при 1 запросе
+    private int page = 0;                                                                                               //номер страницы гне находиться цена монет
+    private int requestCoinGeCo = 10;                                                                                    //сколько выполнитть запросов по API
 
 
     @Autowired
-    public updateDateBase(PostRepository postRepository) {
+    public updateDateBase(PostRepository postRepository) {                                                              //репозетория для сохранение или обновление обектов в базе данных
         this.postRepository = postRepository;
-    }
-
-    public void save() {
-        Parser parser = new Parser();
-        List<Post> list = new ArrayList<>();
-        String url = parser.getUrlContent(parser.urlCoinGeco("USD", QuantityCoin, page));
-        JSONArray object = new JSONArray(url);
-        for (int i = 0; i < object.length(); i++) {
-            String data = object.get(i).toString();
-            JSONObject jsonObject = new JSONObject(data);
-            list.add(new Post(
-                    jsonObject.get("market_cap_rank").toString(),
-                    jsonObject.get("id").toString(),
-                    jsonObject.get("current_price").toString(),
-                    jsonObject.get("market_cap_change_percentage_24h").toString(),
-                    jsonObject.get("total_volume").toString(),
-                    jsonObject.get("market_cap").toString(),
-                    jsonObject.get("image").toString()));
-            saveDB(list.get(i));
-        }
-
-    }
-
-    @Scheduled(fixedRate = 60000)
-    public void update() {
-        Parser parser = new Parser();
-        List<Post> list = new ArrayList<>();
-        List<Post> res = findAll();
-
-
-        String url = parser.getUrlContent(parser.urlCoinGeco("USD", QuantityCoin, page));
-        JSONArray object = new JSONArray(url);
-
-
-        for (int i = 0; i < object.length(); i++) {
-
-            String data = object.get(i).toString();
-            JSONObject jsonObject = new JSONObject(data);
-            list.add(new Post(
-                    jsonObject.get("market_cap_rank").toString(),
-                    jsonObject.get("id").toString(),
-                    jsonObject.get("current_price").toString(),
-                    jsonObject.get("market_cap_change_percentage_24h").toString(),
-                    jsonObject.get("total_volume").toString(),
-                    jsonObject.get("market_cap").toString(),
-                    jsonObject.get("image").toString()));
-            updateDB(list.get(i), res.get(i));
-
-        }
     }
 
     public Post saveDB(Post post) {
@@ -90,6 +42,41 @@ public class updateDateBase {
 
     public List<Post> findAll() {
         return postRepository.findAll();
+    }
+
+
+    @Scheduled(fixedRate = 70000)
+    public void update() {
+        Parser parser = new Parser();
+        List<Post> list = new ArrayList<>();
+        List<Post> res = findAll();
+
+        for (int i = 0; i < requestCoinGeCo; i++) {
+            page = i + 1;
+
+            String url = parser.getUrlContent(parser.urlCoinGeco("USD", QuantityCoin, page));
+            JSONArray object = new JSONArray(url);
+
+            for (int j = 0; j < object.length(); j++) {
+
+                String data = object.get(j).toString();
+                JSONObject jsonObject = new JSONObject(data);
+                list.add(new Post(
+                        jsonObject.get("market_cap_rank").toString(),
+                        jsonObject.get("id").toString(),
+                        jsonObject.get("current_price").toString(),
+                        jsonObject.get("market_cap_change_percentage_24h").toString(),
+                        jsonObject.get("total_volume").toString(),
+                        jsonObject.get("market_cap").toString(),
+                        jsonObject.get("image").toString()));
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            updateDB(list.get(i), res.get(i));
+        }
+        list.clear();                                                                                                   //отчищаем списки что бы не создовались дубли
+        res.clear();                                                                                                    //отчищаем списки что бы не создовались дубли
     }
 
 
@@ -103,7 +90,7 @@ public class updateDateBase {
         post.setTotal_volume(posts.getTotal_volume());
         post.setMarket_cap(posts.getMarket_cap());
         post.setImage_coin(posts.getImage_coin());
-        postRepository.save(post);
+        saveDB(post);
 
     }
 

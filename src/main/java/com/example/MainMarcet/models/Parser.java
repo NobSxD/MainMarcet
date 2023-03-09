@@ -1,12 +1,14 @@
 package com.example.MainMarcet.models;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
 
-
+@Slf4j
 public class Parser {
 
 
@@ -28,7 +30,7 @@ public class Parser {
                 conect.append(line + "\n");
             }
         } catch (Exception e) {
-
+            log.error("Exception:{}", e.getMessage());
         }
         return conect.toString();
     }
